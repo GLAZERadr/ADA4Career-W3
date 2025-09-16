@@ -1,0 +1,22 @@
+{
+  "css.validate": false,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "workbench.editor.customLabels.patterns": {
+    "**/src/app/**/page.tsx": "${dirname} - page",
+    "**/src/app/**/layout.tsx": "${dirname} - layout",
+    "**/src/app/api/**/route.ts": "${dirname} - api route"
+  },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  // Tailwind CSS Autocomplete, add more if used in projects
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "classNames",
+    "containerClassName"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}

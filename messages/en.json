@@ -1,0 +1,336 @@
+{
+  "LandingPage": {
+    "signIn": "Sign In",
+    "register": "Register",
+    "placeholderEmail": "Enter your email",
+    "rememberMe": "Remember Me",
+    "createAccount": "Create Account",
+    "role": "Role",
+    "selectRole": "Select Role",
+    "terms": "I agree to the Terms of Service and Privacy Policy",
+    "already": "Already have an account?",
+    "notAlready": "Not already have an account?"
+  },
+  "Navbar": {
+    "home": "Home",
+    "products": "Products"
+  },
+  "General": {
+    "jobSeeker": "Job Seeker",
+    "hr": "Human Resources"
+  },
+  "Onboarding": {
+    "Disability": {
+      "Impairments": {
+        "visual": {
+          "lowVision": "Low Vision",
+          "colorBlindness": "Color Blindness",
+          "blindness": "Blindness",
+          "other": "Other"
+        },
+        "hearing": {
+          "moderateHearingLoss": "Moderate Hearing Loss",
+          "severeHearingLoss": "Severe Hearing Loss",
+          "deaf": "Deaf",
+          "other": "Other"
+        },
+        "mute": {
+          "moderateSpeechImpairment": "Moderate Speech Impairment",
+          "severeSpeechImpairment": "Severe Speech Impairment",
+          "nonVerbal": "Non-verbal",
+          "other": "Other"
+        },
+        "motoric": {
+          "limitedMobility": "Limited Mobility",
+          "fineMotorControlIssues": "Fine Motor Control Issues",
+          "coordinationIssues": "Coordination Issues",
+          "other": "Other"
+        },
+        "mental": {
+          "anxietyDepression": "Anxiety/Depression",
+          "adhdAutism": "ADHD/Autism",
+          "ptsdOcd": "PTSD/OCD",
+          "other": "Other"
+        }
+      },
+      "title": "Disability Questionnaire",
+      "desc": "Please provide information about your needs to help us serve you better.",
+      "yourProgress": "Your Progress",
+      "selectType": "Please select your disability type(s):",
+      "visual": "Visual",
+      "hearing": "Hearing",
+      "mute": "Mute",
+      "motoric": "Motoric",
+      "mental": "Mental or Intellectual",
+      "details": "Details",
+      "step": "Step {currentStep} of {totalStep}",
+      "selectImpairment": "Please select your type of impairment:",
+      "specifyImpairment": "Please specify your impairment type:",
+      "additionalDetails": "Please provide any additional details (optional):",
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit",
+      "haveDisability": "Do you have any disabilities?",
+      "whatType": "What type of disability do you have?",
+      "impairmentPlaceholder": "Enter your specific impairment type",
+      "detailsPlaceholder": "Describe your condition and any specific needs or accommodations"
+    },
+    "JobSeeker": {
+      "title": "Making a Curriculum Vitae",
+      "desc": "We help you make a Curriculum Vitae",
+      "yourProgress": "Your Progress",
+      "next": "Next",
+      "submit": "Submit",
+      "previous": "Previous",
+      "errorMessage": "Please fill out all fields correctly.",
+      "successMessage": "Data saved successfully",
+      "PersonalInfo": {
+        "fullName": "Full Name *",
+        "fullNamePlaceholder": "Enter your full name",
+        "age": "Age *",
+        "agePlaceholder": "19",
+        "gender": "Gender *",
+        "genderPlaceholder": "Select gender",
+        "genderMale": "Male",
+        "genderFemale": "Female",
+        "genderOther": "Other",
+        "address": "Residence Location *",
+        "addressPlaceholder": "Bandung, Indonesia"
+      },
+      "SkillExperience": {
+        "skills": "Skills *",
+        "skillsPlaceholder": "Type a skill and press Enter",
+        "experience": "Experience *",
+        "experiencePlaceholder": "Your experiences..."
+      },
+      "Expectation": {
+        "expectation": "Expectation (optional)",
+        "expectationPlaceholder": "Tell us your expectations"
+      }
+    },
+    "CVResult": {
+      "title": "Your AI-Generated Resume",
+      "subtitle": "Tailored for disability career development and accessibility",
+      "generating": "Generating your resume",
+      "generatingMessage": "Our AI is analyzing your profile and creating a tailored resume...",
+      "error": "Error",
+      "goBack": "Go Back and Try Again",
+      "download": "Download Resume",
+      "continue": "Continue to Dashboard",
+      "careerSuggestions": "Career Suggestions",
+      "bestMatch": "Best match for your profile"
+    }
+  },
+  "Dashboard": {
+    "Layout": {
+      "jobRecommendation": "Job Recommendation",
+      "courseRecommendation": "Course Recommendation",
+      "chatWithAIDA": "Chat with AIDA",
+      "careerTree": "Your Personalized Career Tree",
+      "loading": "Loading..."
+    },
+    "UserProfile": {
+      "myAccount": "My Account",
+      "profile": "Profile",
+      "logOut": "Log Out",
+      "loggingOut": "Logging Out..."
+    },
+    "Sidebar": {
+      "home": "Home",
+      "courses": "Courses",
+      "aidaChat": "AIDA Chat",
+      "careerTree": "Career Tree"
+    }
+  },
+  "Jobs": {
+    "Card": {
+      "jobTypes": {
+        "full_time": "Full-time",
+        "part_time": "Part-time",
+        "contract": "Contract",
+        "fixed_term": "Fixed-term",
+        "casual": "Casual"
+      },
+      "workplaceTypes": {
+        "remote": "Remote",
+        "hybrid": "Hybrid",
+        "on_site": "On-site"
+      },
+      "accessibilityLevels": {
+        "high": "High Accessibility",
+        "medium": "Medium Accessibility",
+        "standard": "Standard Accessibility"
+      },
+      "timeLabels": {
+        "hour": "Hour",
+        "hours": "Hours",
+        "ago": "Ago"
+      },
+      "earlyApplicant": "Be an early applicant",
+      "disabilityFriendly": "Disability-Friendly",
+      "accommodationsInclude": "Accommodations include:",
+      "required": "Required",
+      "seeDetail": "See Detail"
+    },
+    "Filters": {
+      "searchByDivision": "Search by division",
+      "jobType": "Job Type",
+      "allJobTypes": "All Job Types",
+      "workplaceType": "Workplace Type",
+      "allWorkplaceTypes": "All Workplace Types",
+      "clearFilters": "Clear Filters"
+    },
+    "HomePage": {
+      "noJobVacancies": "No Job Vacancies"
+    }
+  },
+  "JobDetail": {
+    "navigation": {
+      "backToJobs": "Back to all jobs"
+    },
+    "badges": {
+      "new": "New",
+      "disabilityFriendly": "Disability-Friendly",
+      "accessible": "Accessible"
+    },
+    "tabs": {
+      "jobDetails": "Job Details",
+      "accessibility": "Accessibility",
+      "company": "Company",
+      "breakdown": "Breakdown"
+    },
+    "jobInfo": {
+      "location": "Location",
+      "jobType": "Job Type",
+      "salaryRange": "Salary Range",
+      "perYear": "per year",
+      "duration": "Duration",
+      "experience": "Experience",
+      "required": "Required",
+      "contact": "Contact"
+    },
+    "content": {
+      "jobDescription": "Job Description",
+      "lookingFor": "We are looking for a talented {division} professional to join our team. This is an exciting opportunity to work with cutting-edge technologies and contribute to innovative projects in a collaborative environment.",
+      "responsibilities": "Responsibilities",
+      "qualifications": "Qualifications",
+      "benefits": "Benefits"
+    },
+    "accessibility": {
+      "title": "Accessibility & Accommodations",
+      "accessibilityLevel": "Accessibility Level",
+      "ratedAs": "This position has been rated as having {level} accessibility, meaning we have taken steps to ensure the workplace, tools, and processes are accessible to people with disabilities.",
+      "availableAccommodations": "Available Accommodations",
+      "inclusiveHiringStatement": "Inclusive Hiring Statement",
+      "defaultStatement": "We are committed to creating an inclusive workplace that promotes and values diversity. We actively seek applicants from diverse backgrounds, including those with disabilities.",
+      "additionalSupport": "Additional Support",
+      "contactForAccommodations": "If you require any accommodations during the application or interview process, please contact our HR team at {email}. We are committed to ensuring an accessible and equitable hiring process for all candidates.",
+      "welcomeSuggestions": "We also welcome suggestions on how we can make our workplace and hiring process more accessible and inclusive."
+    },
+    "company": {
+      "growingCompany": "{stage} company",
+      "description": "{company} is a {stage} company in the {industry} industry. We are dedicated to innovation, excellence, and creating a positive impact through our products and services.",
+      "companySize": "Company Size",
+      "employees": "{min}-{max} employees",
+      "website": "Website",
+      "industry": "Industry",
+      "commitmentToAccessibility": "Commitment to Accessibility",
+      "accessibilityStatement": "At {company}, we believe in creating an inclusive workplace where everyone can thrive. We have implemented various accessibility features across our offices and digital platforms, and we continuously work to improve our accessibility standards."
+    },
+    "sidebar": {
+      "matchScore": "Match Score",
+      "applyPosition": "Apply for this position",
+      "applicationInfo": "Submit your application now to be considered for this role. The hiring process typically takes 1-2 weeks.",
+      "applyNow": "Apply Now",
+      "accommodationNote": "Need accommodations during the application process? Please contact us at {email}.",
+      "accessibilityHighlights": "Accessibility Highlights",
+      "keyAccommodations": "Key Accommodations:",
+      "viewAll": "View all accessibility features",
+      "jobInsights": "Job Insights",
+      "posted": "Posted",
+      "daysAgo": "{days} days ago",
+      "applications": "Applications",
+      "interviews": "Interviews"
+    }
+  },
+  "Courses": {
+    "page": {
+      "title": "Course Recommendations",
+      "noCoursesFound": "No courses found"
+    },
+    "card": {
+      "viewCourse": "View Course",
+      "duration": "6-8 weeks",
+      "studentsEnrolled": "10.5k"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    }
+  },
+  "Accessibility": {
+    "widget": {
+      "openSettings": "Open accessibility settings",
+      "title": "Accessibility Access",
+      "reset": "Reset",
+      "readGuidelines": "Read our Accessibility Statements & Guidelines"
+    },
+    "profiles": {
+      "seizeSafe": "Seize Safe Profile",
+      "visionImpaired": "Vision Impaired Profile",
+      "adhd": "ADHD",
+      "cognitiveDisability": "Cognitive Disability Profile"
+    },
+    "orientation": {
+      "title": "Orientation Adjustments",
+      "hideImages": "Hide Images",
+      "readMode": "Read Mode",
+      "bigBlackCursor": "Big Black Cursor",
+      "bigWhiteCursor": "Big White Cursor"
+    },
+    "colors": {
+      "title": "Color Adjustments",
+      "darkContrast": "Dark Contrast",
+      "lightContrast": "Light Contrast",
+      "highContrast": "High Contrast",
+      "highSaturation": "High Saturation",
+      "monochrome": "Monochrome",
+      "lowSaturation": "Low Saturation"
+    },
+    "content": {
+      "title": "Content Adjustments",
+      "contentScaling": "Content Scaling",
+      "default": "Default",
+      "large": "Large",
+      "larger": "Larger",
+      "readableFont": "Readable Font",
+      "highlightTitles": "Highlight Titles",
+      "highlightLinks": "Highlight Links",
+      "highlightHover": "Highlight Hover",
+      "alignCenter": "Align Center",
+      "alignLeft": "Align Left",
+      "alignRight": "Align Right",
+      "alignJustify": "Align Justify"
+    },
+    "welcome": {
+      "title": "Welcome! Customize Your Experience",
+      "description": "Please select an accessibility profile that suits your needs, or skip to use the default interface.",
+      "seizeSafe": "Seizure Safe",
+      "seizeSafeDesc": "Eliminates flashes and reduces color",
+      "visionImpaired": "Vision Impaired",
+      "visionImpairedDesc": "Enhances website visuals",
+      "adhd": "ADHD Friendly",
+      "adhdDesc": "Reduces distractions and improves focus",
+      "cognitiveDisability": "Cognitive Disability",
+      "cognitiveDisabilityDesc": "Assists with reading and focusing",
+      "skipButton": "Skip for now",
+      "note": "You can change your accessibility settings anytime using the widget at the bottom right of the screen."
+    }
+  },
+  "SwitchLanguage": {
+    "switchLanguage": "Language",
+    "english": "English",
+    "indonesian": "Indonesian"
+  }
+}

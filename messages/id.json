@@ -1,0 +1,336 @@
+{
+  "LandingPage": {
+    "signIn": "Masuk",
+    "register": "Daftar",
+    "placeholderEmail": "Masukkan email Anda",
+    "rememberMe": "Ingat Saya",
+    "createAccount": "Buat Akun",
+    "role": "Peran",
+    "selectRole": "Pilih Peran",
+    "terms": "Saya menyetujui Ketentuan Layanan dan Kebijakan Privasi",
+    "already": "Sudah memiliki akun?",
+    "notAlready": "Belum memiliki akun?"
+  },
+  "Navbar": {
+    "home": "Beranda",
+    "products": "Produk"
+  },
+  "General": {
+    "jobSeeker": "Pencari Kerja",
+    "hr": "Sumber Daya Manusia"
+  },
+  "Onboarding": {
+    "Disability": {
+      "title": "Kuesioner Disabilitas",
+      "desc": "Harap berikan informasi tentang kebutuhan Anda untuk membantu kami melayani Anda dengan lebih baik.",
+      "yourProgress": "Kemajuan Anda",
+      "selectType": "Silakan pilih jenis disabilitas Anda:",
+      "visual": "Penglihatan",
+      "hearing": "Pendengaran",
+      "mute": "Bisu",
+      "motoric": "Motorik",
+      "mental": "Mental atau Intelektual",
+      "details": "Detail",
+      "step": "Langkah {currentStep} dari {totalStep}",
+      "selectImpairment": "Silakan pilih jenis disabilitas Anda:",
+      "specifyImpairment": "Silakan tentukan jenis disabilitas Anda:",
+      "additionalDetails": "Silakan berikan detail tambahan (opsional):",
+      "previous": "Sebelumnya",
+      "next": "Selanjutnya",
+      "submit": "Kirim",
+      "haveDisability": "Apakah Anda memiliki disabilitas?",
+      "whatType": "Jenis disabilitas apa yang Anda miliki?",
+      "impairmentPlaceholder": "Masukkan jenis disabilitas spesifik Anda",
+      "detailsPlaceholder": "Jelaskan kondisi Anda dan kebutuhan atau akomodasi khusus",
+      "Impairments": {
+        "visual": {
+          "lowVision": "Penglihatan Rendah",
+          "colorBlindness": "Buta Warna",
+          "blindness": "Kebutaan",
+          "other": "Lainnya"
+        },
+        "hearing": {
+          "moderateHearingLoss": "Gangguan Pendengaran Sedang",
+          "severeHearingLoss": "Gangguan Pendengaran Parah",
+          "deaf": "Tuli",
+          "other": "Lainnya"
+        },
+        "mute": {
+          "moderateSpeechImpairment": "Gangguan Bicara Sedang",
+          "severeSpeechImpairment": "Gangguan Bicara Parah",
+          "nonVerbal": "Non-verbal",
+          "other": "Lainnya"
+        },
+        "motoric": {
+          "limitedMobility": "Mobilitas Terbatas",
+          "fineMotorControlIssues": "Masalah Kontrol Motorik Halus",
+          "coordinationIssues": "Masalah Koordinasi",
+          "other": "Lainnya"
+        },
+        "mental": {
+          "anxietyDepression": "Kecemasan/Depresi",
+          "adhdAutism": "ADHD/Autisme",
+          "ptsdOcd": "PTSD/OCD",
+          "other": "Lainnya"
+        }
+      }
+    },
+    "JobSeeker": {
+      "title": "Membuat Curriculum Vitae",
+      "desc": "Kami membantu Anda membuat Curriculum Vitae",
+      "yourProgress": "Kemajuan Anda",
+      "next": "Selanjutnya",
+      "submit": "Kirim",
+      "previous": "Sebelumnya",
+      "errorMessage": "Harap isi semua kolom dengan benar.",
+      "successMessage": "Data berhasil disimpan",
+      "PersonalInfo": {
+        "fullName": "Nama Lengkap *",
+        "fullNamePlaceholder": "Masukkan nama lengkap Anda",
+        "age": "Usia *",
+        "agePlaceholder": "19",
+        "gender": "Jenis Kelamin *",
+        "genderPlaceholder": "Pilih jenis kelamin",
+        "genderMale": "Laki-laki",
+        "genderFemale": "Perempuan",
+        "genderOther": "Lainnya",
+        "address": "Lokasi Tempat Tinggal *",
+        "addressPlaceholder": "Bandung, Indonesia"
+      },
+      "SkillExperience": {
+        "skills": "Keahlian *",
+        "skillsPlaceholder": "Ketik keahlian dan tekan Enter",
+        "experience": "Pengalaman *",
+        "experiencePlaceholder": "Pengalaman Anda..."
+      },
+      "Expectation": {
+        "expectation": "Harapan (opsional)",
+        "expectationPlaceholder": "Ceritakan harapan Anda"
+      }
+    },
+    "CVResult": {
+      "title": "Resume AI-Generated Anda",
+      "subtitle": "Disesuaikan untuk pengembangan karir disabilitas dan aksesibilitas",
+      "generating": "Menghasilkan resume Anda",
+      "generatingMessage": "AI kami sedang menganalisis profil Anda dan membuat resume yang disesuaikan...",
+      "error": "Kesalahan",
+      "goBack": "Kembali dan Coba Lagi",
+      "download": "Unduh Resume",
+      "continue": "Lanjutkan ke Dashboard",
+      "careerSuggestions": "Saran Karir",
+      "bestMatch": "Cocok terbaik untuk profil Anda"
+    }
+  },
+  "Dashboard": {
+    "Layout": {
+      "jobRecommendation": "Rekomendasi Pekerjaan",
+      "courseRecommendation": "Rekomendasi Kursus",
+      "chatWithAIDA": "Chat dengan AIDA",
+      "careerTree": "Pohon Karir Personal Anda",
+      "loading": "Memuat..."
+    },
+    "UserProfile": {
+      "myAccount": "Akun Saya",
+      "profile": "Profil",
+      "logOut": "Keluar",
+      "loggingOut": "Sedang Keluar..."
+    },
+    "Sidebar": {
+      "home": "Beranda",
+      "courses": "Kursus",
+      "aidaChat": "Chat AIDA",
+      "careerTree": "Pohon Karir"
+    }
+  },
+  "Jobs": {
+    "Card": {
+      "jobTypes": {
+        "full_time": "Penuh Waktu",
+        "part_time": "Paruh Waktu",
+        "contract": "Kontrak",
+        "fixed_term": "Jangka Tetap",
+        "casual": "Kasual"
+      },
+      "workplaceTypes": {
+        "remote": "Jarak Jauh",
+        "hybrid": "Hybrid",
+        "on_site": "Di Tempat"
+      },
+      "accessibilityLevels": {
+        "high": "Aksesibilitas Tinggi",
+        "medium": "Aksesibilitas Sedang",
+        "standard": "Aksesibilitas Standar"
+      },
+      "timeLabels": {
+        "hour": "Jam",
+        "hours": "Jam",
+        "ago": "Lalu"
+      },
+      "earlyApplicant": "Jadilah pelamar awal",
+      "disabilityFriendly": "Ramah Disabilitas",
+      "accommodationsInclude": "Akomodasi termasuk:",
+      "required": "Diperlukan",
+      "seeDetail": "Lihat Detail"
+    },
+    "Filters": {
+      "searchByDivision": "Cari berdasarkan divisi",
+      "jobType": "Jenis Pekerjaan",
+      "allJobTypes": "Semua Jenis Pekerjaan",
+      "workplaceType": "Jenis Tempat Kerja",
+      "allWorkplaceTypes": "Semua Jenis Tempat Kerja",
+      "clearFilters": "Hapus Filter"
+    },
+    "HomePage": {
+      "noJobVacancies": "Tidak Ada Lowongan Kerja"
+    }
+  },
+  "JobDetail": {
+    "navigation": {
+      "backToJobs": "Kembali ke semua pekerjaan"
+    },
+    "badges": {
+      "new": "Baru",
+      "disabilityFriendly": "Ramah Disabilitas",
+      "accessible": "Aksesibel"
+    },
+    "tabs": {
+      "jobDetails": "Detail Pekerjaan",
+      "accessibility": "Aksesibilitas",
+      "company": "Perusahaan",
+      "breakdown": "Kecocokan"
+    },
+    "jobInfo": {
+      "location": "Lokasi",
+      "jobType": "Jenis Pekerjaan",
+      "salaryRange": "Kisaran Gaji",
+      "perYear": "per tahun",
+      "duration": "Durasi",
+      "experience": "Pengalaman",
+      "required": "Dibutuhkan",
+      "contact": "Kontak"
+    },
+    "content": {
+      "jobDescription": "Deskripsi Pekerjaan",
+      "lookingFor": "Kami mencari profesional {division} berbakat untuk bergabung dengan tim kami. Ini adalah kesempatan menarik untuk bekerja dengan teknologi mutakhir dan berkontribusi pada proyek inovatif dalam lingkungan kolaboratif.",
+      "responsibilities": "Tanggung Jawab",
+      "qualifications": "Kualifikasi",
+      "benefits": "Keuntungan"
+    },
+    "accessibility": {
+      "title": "Aksesibilitas & Akomodasi",
+      "accessibilityLevel": "Tingkat Aksesibilitas",
+      "ratedAs": "Posisi ini telah dinilai memiliki aksesibilitas {level}, yang berarti kami telah mengambil langkah untuk memastikan tempat kerja, alat, dan proses dapat diakses oleh orang dengan disabilitas.",
+      "availableAccommodations": "Akomodasi yang Tersedia",
+      "inclusiveHiringStatement": "Pernyataan Perekrutan Inklusif",
+      "defaultStatement": "Kami berkomitmen untuk menciptakan tempat kerja inklusif yang mempromosikan dan menghargai keberagaman. Kami secara aktif mencari pelamar dari berbagai latar belakang, termasuk mereka dengan disabilitas.",
+      "additionalSupport": "Dukungan Tambahan",
+      "contactForAccommodations": "Jika Anda memerlukan akomodasi selama proses aplikasi atau wawancara, silakan hubungi tim HR kami di {email}. Kami berkomitmen untuk memastikan proses perekrutan yang dapat diakses dan adil bagi semua kandidat.",
+      "welcomeSuggestions": "Kami juga menyambut saran tentang bagaimana kami dapat membuat tempat kerja dan proses perekrutan kami lebih aksesibel dan inklusif."
+    },
+    "company": {
+      "growingCompany": "Perusahaan {stage}",
+      "description": "{company} adalah perusahaan {stage} di industri {industry}. Kami berdedikasi pada inovasi, keunggulan, dan menciptakan dampak positif melalui produk dan layanan kami.",
+      "companySize": "Ukuran Perusahaan",
+      "employees": "{min}-{max} karyawan",
+      "website": "Situs Web",
+      "industry": "Industri",
+      "commitmentToAccessibility": "Komitmen terhadap Aksesibilitas",
+      "accessibilityStatement": "Di {company}, kami percaya dalam menciptakan tempat kerja inklusif di mana semua orang dapat berkembang. Kami telah menerapkan berbagai fitur aksesibilitas di seluruh kantor dan platform digital kami, dan kami terus bekerja untuk meningkatkan standar aksesibilitas kami."
+    },
+    "sidebar": {
+      "matchScore": "Skor Kecocokan",
+      "applyPosition": "Lamar posisi ini",
+      "applicationInfo": "Kirimkan lamaran Anda sekarang untuk dipertimbangkan untuk peran ini. Proses perekrutan biasanya memakan waktu 1-2 minggu.",
+      "applyNow": "Lamar Sekarang",
+      "accommodationNote": "Perlu akomodasi selama proses aplikasi? Silakan hubungi kami di {email}.",
+      "accessibilityHighlights": "Sorotan Aksesibilitas",
+      "keyAccommodations": "Akomodasi Utama:",
+      "viewAll": "Lihat semua fitur aksesibilitas",
+      "jobInsights": "Wawasan Pekerjaan",
+      "posted": "Diposting",
+      "daysAgo": "{days} hari yang lalu",
+      "applications": "Aplikasi",
+      "interviews": "Wawancara"
+    }
+  },
+  "Courses": {
+    "page": {
+      "title": "Rekomendasi Kursus",
+      "noCoursesFound": "Tidak ada kursus ditemukan"
+    },
+    "card": {
+      "viewCourse": "Lihat Kursus",
+      "duration": "6-8 minggu",
+      "studentsEnrolled": "10,5 ribu"
+    },
+    "levels": {
+      "beginner": "Pemula",
+      "intermediate": "Menengah",
+      "advanced": "Lanjutan"
+    }
+  },
+  "Accessibility": {
+    "widget": {
+      "openSettings": "Buka pengaturan aksesibilitas",
+      "title": "Akses Aksesibilitas",
+      "reset": "Atur Ulang",
+      "readGuidelines": "Baca Pernyataan & Pedoman Aksesibilitas kami"
+    },
+    "profiles": {
+      "seizeSafe": "Profil Aman Kejang",
+      "visionImpaired": "Profil Gangguan Penglihatan",
+      "adhd": "ADHD",
+      "cognitiveDisability": "Profil Disabilitas Kognitif"
+    },
+    "orientation": {
+      "title": "Penyesuaian Orientasi",
+      "hideImages": "Sembunyikan Gambar",
+      "readMode": "Mode Membaca",
+      "bigBlackCursor": "Kursor Hitam Besar",
+      "bigWhiteCursor": "Kursor Putih Besar"
+    },
+    "colors": {
+      "title": "Penyesuaian Warna",
+      "darkContrast": "Kontras Gelap",
+      "lightContrast": "Kontras Terang",
+      "highContrast": "Kontras Tinggi",
+      "highSaturation": "Saturasi Tinggi",
+      "monochrome": "Monokrom",
+      "lowSaturation": "Saturasi Rendah"
+    },
+    "content": {
+      "title": "Penyesuaian Konten",
+      "contentScaling": "Skala Konten",
+      "default": "Default",
+      "large": "Besar",
+      "larger": "Lebih Besar",
+      "readableFont": "Font Mudah Dibaca",
+      "highlightTitles": "Sorot Judul",
+      "highlightLinks": "Sorot Tautan",
+      "highlightHover": "Sorot saat Hover",
+      "alignCenter": "Rata Tengah",
+      "alignLeft": "Rata Kiri",
+      "alignRight": "Rata Kanan",
+      "alignJustify": "Rata Penuh"
+    },
+    "welcome": {
+      "title": "Selamat datang! Sesuaikan Pengalaman Anda",
+      "description": "Silakan pilih profil aksesibilitas yang sesuai dengan kebutuhan Anda, atau lewati untuk menggunakan antarmuka default.",
+      "seizeSafe": "Aman Kejang",
+      "seizeSafeDesc": "Menghilangkan cahaya berkedip dan mengurangi warna",
+      "visionImpaired": "Gangguan Penglihatan",
+      "visionImpairedDesc": "Meningkatkan visual situs web",
+      "adhd": "Ramah ADHD",
+      "adhdDesc": "Mengurangi gangguan dan meningkatkan fokus",
+      "cognitiveDisability": "Disabilitas Kognitif",
+      "cognitiveDisabilityDesc": "Membantu membaca dan fokus",
+      "skipButton": "Lewati untuk saat ini",
+      "note": "Anda dapat mengubah pengaturan aksesibilitas kapan saja menggunakan widget di pojok kanan bawah layar."
+    }
+  },
+  "SwitchLanguage": {
+    "switchLanguage": "Bahasa",
+    "english": "Inggris",
+    "indonesian": "Indonesia"
+  }
+}

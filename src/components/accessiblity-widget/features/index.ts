@@ -1,0 +1,32 @@
+import { useContrastMode } from '@/components/accessiblity-widget/features/color/useContrast';
+import { useMonochrome } from '@/components/accessiblity-widget/features/color/useMonochrome';
+import { useSaturation } from '@/components/accessiblity-widget/features/color/useSaturation';
+import { useTextAlignment } from '@/components/accessiblity-widget/features/content/useAlignment';
+import { useContentScaling } from '@/components/accessiblity-widget/features/content/useContentScaling';
+import { useHighlightHover } from '@/components/accessiblity-widget/features/content/useHighlightHover';
+import { useLinkHighlight } from '@/components/accessiblity-widget/features/content/useHighlightLink';
+import { useHighlightTitles } from '@/components/accessiblity-widget/features/content/useHighlightTitles';
+import { useKeyboardNavigation } from '@/components/accessiblity-widget/features/content/useKeyboardNavigation';
+import { useReadableFont } from '@/components/accessiblity-widget/features/content/useReadableFont';
+import { useCursor } from '@/components/accessiblity-widget/features/orientation/useCursor';
+import { useHideImages } from '@/components/accessiblity-widget/features/orientation/useHideImage';
+import { useMuteSound } from '@/components/accessiblity-widget/features/orientation/useMuteSounds';
+import { useReadMode } from '@/components/accessiblity-widget/features/orientation/useReadMode';
+
+export const useAccesibilityEffects = () => {
+  useMuteSound();
+  useContrastMode();
+  useCursor();
+  useHideImages();
+  useReadMode();
+  // useStopAnimations();
+  useTextAlignment();
+  useContentScaling();
+  useLinkHighlight();
+  useMonochrome();
+  useSaturation();
+  useHighlightTitles();
+  useHighlightHover();
+  useReadableFont();
+  useKeyboardNavigation();
+};
