@@ -18,25 +18,77 @@ import {
 const CoursePage = () => {
   const t = useTranslations('Courses.page'); // Add translation hook for page content
 
+  // Dummy course data for demo purposes
+  const dummyCourses: CourseRecommendation[] = [
+    {
+      courseName: 'Complete Web3 & Blockchain Development Bootcamp',
+      description: 'Master blockchain development, smart contracts, and DeFi protocols. Learn Solidity, Ethereum, and build real-world Web3 applications.',
+      level: 'Intermediate',
+      source: 'Udemy',
+      url: 'https://www.udemy.com/course/blockchain-developer/',
+    },
+    {
+      courseName: 'Smart Contract Security & Auditing',
+      description: 'Learn how to identify vulnerabilities in smart contracts and conduct professional security audits for DeFi protocols.',
+      level: 'Advanced',
+      source: 'ConsenSys Academy',
+      url: 'https://consensys.net/academy/',
+    },
+    {
+      courseName: 'Introduction to Cryptocurrency & DeFi',
+      description: 'Understand the fundamentals of cryptocurrency, decentralized finance, and how blockchain technology works.',
+      level: 'Beginner',
+      source: 'Coursera',
+      url: 'https://www.coursera.org/learn/cryptocurrency',
+    },
+    {
+      courseName: 'React for Web3 Development',
+      description: 'Build modern Web3 user interfaces using React, Web3.js, and Ethers.js. Connect to wallets and interact with smart contracts.',
+      level: 'Intermediate',
+      source: 'freeCodeCamp',
+      url: 'https://www.freecodecamp.org/learn/front-end-development-libraries/',
+    },
+    {
+      courseName: 'Solidity Programming Fundamentals',
+      description: 'Learn to write secure smart contracts using Solidity. Cover gas optimization, design patterns, and testing strategies.',
+      level: 'Beginner',
+      source: 'Ethereum.org',
+      url: 'https://ethereum.org/en/developers/docs/smart-contracts/',
+    },
+    {
+      courseName: 'NFT Development & Marketplace Creation',
+      description: 'Create your own NFT collection and marketplace. Learn about ERC-721, ERC-1155 standards and IPFS integration.',
+      level: 'Intermediate',
+      source: 'YouTube',
+      url: 'https://www.youtube.com/watch?v=WsZBNW82HpE',
+    },
+    {
+      courseName: 'DeFi Protocol Development',
+      description: 'Build decentralized finance protocols including DEXs, lending platforms, and yield farming mechanisms.',
+      level: 'Advanced',
+      source: 'Alchemy University',
+      url: 'https://www.alchemy.com/university',
+    },
+    {
+      courseName: 'Blockchain Career Transition Guide',
+      description: 'Complete guide to transitioning into a blockchain career. Includes portfolio building, networking, and job interview preparation.',
+      level: 'Beginner',
+      source: 'ADA4Career',
+      url: 'https://ada4career.com/courses/blockchain-career-guide',
+    }
+  ];
+
   const { user } = useAuthStore();
-  const { data, isPending } = useQuery({
+  const { data, isPending, error } = useQuery<CourseRecommendation[]>({
     queryKey: ['courses'],
     queryFn: async () => {
-      const responseRole = await api.post(
-        `${API_BASE_URL}/generate-role/${user?.email}`
-      );
-      const role = responseRole.data.data;
-
-      const response = await api.post<RecommendationsResponse>(
-        `${API_AI_URL}/course-recommendations`,
-        {
-          job_role: role,
-          skill: user?.job_seeker_data?.skill,
-          experiences: user?.job_seeker_data?.experiences,
-        }
-      );
-      return response.data.recommendations;
+      // Always use dummy data for demo purposes
+      console.log('Using dummy courses data for demo');
+      // Simulate loading delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return dummyCourses;
     },
+    retry: false, // Don't retry on error
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
@@ -49,6 +101,22 @@ const CoursePage = () => {
     );
   }
 
+  if (error) {
+    console.error('Courses page error:', error);
+    // Fallback to dummy data if there's an error
+    return (
+      <div className='max-w-7xl mx-auto px-4 py-8'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {dummyCourses.map((course, index) => (
+            <CourseCard key={index} course={course} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const coursesToDisplay = data && data.length > 0 ? data : dummyCourses;
+
   return (
     <div className='max-w-7xl mx-auto px-4 py-8'>
       {/* <div className='flex items-center mb-8'>
@@ -58,15 +126,9 @@ const CoursePage = () => {
         </h1>
       </div> */}
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-        {data ? (
-          data.map((course, index) => (
-            <CourseCard key={index} course={course} />
-          ))
-        ) : (
-          <div className='col-span-full text-center text-gray-500'>
-            {t('noCoursesFound')}
-          </div>
-        )}
+        {coursesToDisplay.map((course, index) => (
+          <CourseCard key={index} course={course} />
+        ))}
       </div>
     </div>
   );

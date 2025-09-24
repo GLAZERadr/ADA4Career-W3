@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useCallback, ReactNode } from 'react';
 import { BrowserProvider, JsonRpcSigner, Contract } from 'ethers';
 
 import { CVRegistry } from '@/types/web3.types';
@@ -396,7 +396,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     }
   };
 
-  const getCVStatus = async () => {
+  const getCVStatus = useCallback(async () => {
     if (!state.account) {
       return;
     }
@@ -448,7 +448,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
         }
       });
     }
-  };
+  }, [state.account, state.cvRegistryContract]);
 
   const approveCV = async (userAddress: string): Promise<string> => {
     if (!state.cvRegistryContract) {

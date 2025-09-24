@@ -157,8 +157,8 @@ contract.on('CVSubmitted', (user, ipfsHash, metadataHash, timestamp) => {
   fs.writeFileSync(examplesPath, examplesTemplate.trim());
   console.log('📚 Contract examples saved to:', examplesPath);
 
-  console.log('\n🎉 Deployment completed successfully!');
-  console.log('\n📋 Next Steps:');
+  console.log('\nDeployment completed successfully!');
+  console.log('\nNext Steps:');
   console.log('1. Add the contract address to your .env.local file');
   console.log('2. Update your frontend to use the new contract address');
   console.log('3. Test the contract functions using the provided examples');

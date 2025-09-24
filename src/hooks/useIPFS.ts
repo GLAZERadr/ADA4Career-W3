@@ -2,81 +2,16 @@
 
 import { useState } from 'react';
 import { IPFSUploadResult, CVMetadata } from '@/types/web3.types';
+import IPFSService from '@/services/ipfs.service';
 
-// Mock IPFS service - replace with actual IPFS integration
-class MockIPFSService {
-  private static instance: MockIPFSService;
-  private storage: Map<string, any> = new Map();
-
-  static getInstance(): MockIPFSService {
-    if (!MockIPFSService.instance) {
-      MockIPFSService.instance = new MockIPFSService();
-    }
-    return MockIPFSService.instance;
-  }
-
-  async uploadJSON(data: any): Promise<IPFSUploadResult> {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    const hash = this.generateHash(JSON.stringify(data));
-    const size = new Blob([JSON.stringify(data)]).size;
-
-    this.storage.set(hash, data);
-
-    return {
-      hash,
-      url: `https://ipfs.io/ipfs/${hash}`,
-      size
-    };
-  }
-
-  async uploadFile(file: File): Promise<IPFSUploadResult> {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    const buffer = await file.arrayBuffer();
-    const hash = this.generateHash(buffer.toString());
-    const size = file.size;
-
-    this.storage.set(hash, file);
-
-    return {
-      hash,
-      url: `https://ipfs.io/ipfs/${hash}`,
-      size
-    };
-  }
-
-  async retrieve(hash: string): Promise<any> {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    if (!this.storage.has(hash)) {
-      throw new Error(`Content not found for hash: ${hash}`);
-    }
-
-    return this.storage.get(hash);
-  }
-
-  private generateHash(content: string): string {
-    // Simple hash function for demo - use proper IPFS hash in production
-    let hash = 0;
-    for (let i = 0; i < content.length; i++) {
-      const char = content.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return `Qm${Math.abs(hash).toString(36)}${'a'.repeat(40 - Math.abs(hash).toString(36).length)}`;
-  }
-}
+// Use the enhanced IPFS service with Pinata integration and mock fallback
 
 export function useIPFS() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  const ipfsService = MockIPFSService.getInstance();
+  const ipfsService = IPFSService.getInstance();
 
   const uploadCV = async (cvData: any, file?: File): Promise<{
     cvHash: string;
@@ -92,7 +27,15 @@ export function useIPFS() {
       // Upload file if provided
       if (file) {
         setUploadProgress(25);
-        const fileResult = await ipfsService.uploadFile(file);
+        const fileResult = await ipfsService.uploadFile(file, {
+          pinataMetadata: {
+            name: `CV_${cvData.personalInfo?.name || 'Unknown'}_${Date.now()}`,
+            keyvalues: {
+              type: 'cv_document',
+              user: cvData.personalInfo?.email || 'unknown'
+            }
+          }
+        });
         fileHash = fileResult.hash;
         setUploadProgress(50);
       }
@@ -116,7 +59,16 @@ export function useIPFS() {
       setUploadProgress(75);
 
       // Upload metadata
-      const metadataResult = await ipfsService.uploadJSON(metadata);
+      const metadataResult = await ipfsService.uploadJSON(metadata, {
+        pinataMetadata: {
+          name: `CV_Metadata_${metadata.name}_${Date.now()}`,
+          keyvalues: {
+            type: 'cv_metadata',
+            user: metadata.email,
+            version: metadata.version
+          }
+        }
+      });
 
       setUploadProgress(100);
 

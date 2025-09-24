@@ -21,6 +21,14 @@ module.exports = {
       gas: 'auto',
       timeout: 60000,
     },
+    'eth-sepolia': {
+      url: process.env.ETH_SEPOLIA_RPC_URL || 'https://ethereum-sepolia-rpc.publicnode.com',
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      chainId: 11155111,
+      gasPrice: 'auto',
+      gas: 'auto',
+      timeout: 60000,
+    },
     hardhat: {
       chainId: 31337,
     },

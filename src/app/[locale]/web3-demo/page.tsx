@@ -63,7 +63,7 @@ export default function Web3DemoPage() {
               CV data stored on Lisk Sepolia testnet with approval workflow
             </p>
             <div className="mt-2 text-xs text-green-600">
-              Network: {isCorrectNetwork ? '✅ Lisk Sepolia' : '❌ Wrong Network'}
+              Network: {isCorrectNetwork ? 'Lisk Sepolia' : 'Wrong Network'}
             </div>
           </CardContent>
         </Card>
@@ -110,7 +110,7 @@ export default function Web3DemoPage() {
           <Alert className="border-green-200 bg-green-50 mb-4">
             <Rocket className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-700">
-              🎉 Ready to build your Web3 CV! All systems connected.
+              Ready to build your Web3 CV! All systems connected.
             </AlertDescription>
           </Alert>
         )}
