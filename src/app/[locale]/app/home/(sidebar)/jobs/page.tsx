@@ -50,6 +50,19 @@ const HomePage = () => {
       ],
       created_at: '2024-01-15',
       updated_at: '2024-01-15',
+      match_percentage: 85,
+      matching_skills: ['Blockchain Development', 'Solidity', 'DeFi', 'Web3', 'Smart Contracts'],
+      missing_skills: ['Rust'],
+      score_breakdown: {
+        skills_score: 32,
+        skills_reasoning: 'Strong match with blockchain development, Solidity, and DeFi experience. Missing Rust knowledge.',
+        experience_score: 25,
+        experience_reasoning: 'Senior level experience aligns well with 5+ years requirement.',
+        expectations_score: 18,
+        expectations_reasoning: 'Salary and work-life balance expectations match well.',
+        accessibility_score: 10,
+        accessibility_reasoning: 'Perfect match for accessibility requirements and remote work preferences.'
+      }
     },
     {
       id: '2',
@@ -75,6 +88,19 @@ const HomePage = () => {
       ],
       created_at: '2024-01-10',
       updated_at: '2024-01-12',
+      match_percentage: 78,
+      matching_skills: ['Smart Contract Security', 'Solidity', 'Vulnerability Assessment', 'Code Review'],
+      missing_skills: ['Formal Verification', 'Mythril'],
+      score_breakdown: {
+        skills_score: 28,
+        skills_reasoning: 'Good match with security analysis and Solidity expertise. Missing some formal verification tools.',
+        experience_score: 22,
+        experience_reasoning: 'Mid-level experience meets the 3+ years requirement.',
+        expectations_score: 16,
+        expectations_reasoning: 'Remote work preference aligns perfectly.',
+        accessibility_score: 10,
+        accessibility_reasoning: 'Excellent match for accessibility requirements.'
+      }
     },
     {
       id: '3',
@@ -100,6 +126,19 @@ const HomePage = () => {
       ],
       created_at: '2024-01-08',
       updated_at: '2024-01-08',
+      match_percentage: 72,
+      matching_skills: ['React', 'JavaScript', 'Web3', 'Frontend Development'],
+      missing_skills: ['TypeScript', 'GraphQL'],
+      score_breakdown: {
+        skills_score: 26,
+        skills_reasoning: 'Strong React and Web3 experience. Missing TypeScript and GraphQL knowledge.',
+        experience_score: 20,
+        experience_reasoning: 'Frontend experience meets the 3+ years requirement.',
+        expectations_score: 15,
+        expectations_reasoning: 'On-site work may not align with remote work preferences.',
+        accessibility_score: 8,
+        accessibility_reasoning: 'Good accessibility support with room for improvement.'
+      }
     }
   ];
 

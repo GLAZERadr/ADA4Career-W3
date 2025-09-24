@@ -253,7 +253,7 @@ export function Web3CVBuilder() {
         toast.dismiss();
 
         toast.success(
-          `🎉 CV uploaded successfully! (Demo mode completed)`,
+          `CV uploaded successfully!`,
           {}
         );
 
