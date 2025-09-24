@@ -65,6 +65,7 @@ export function Web3CVBuilder() {
   const [cvData, setCVData] = useState<CVData>(initialCVData);
   const [newSkill, setNewSkill] = useState('');
   const [cvFile, setCVFile] = useState<File | null>(null);
+  const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
 
   const {
     isConnected,
@@ -231,7 +232,10 @@ export function Web3CVBuilder() {
 
       // Dismiss IPFS loading and show success
       toast.dismiss(ipfsToastId);
-      toast.success('✅ CV successfully uploaded to IPFS!', { duration: 3000 });
+      toast.success('✅ CV successfully uploaded to IPFS!', {});
+
+      // Hide form fields after successful IPFS upload
+      setIsUploadSuccessful(true);
 
       // For demo purposes, simulate blockchain submission after IPFS success
       const isUpdate = cvStatus === 'Pending' || cvStatus === 'Rejected';
@@ -250,7 +254,7 @@ export function Web3CVBuilder() {
 
         toast.success(
           `🎉 CV uploaded successfully! (Demo mode completed)`,
-          { duration: 4000 }
+          {}
         );
 
         console.log('Demo simulation completed successfully');
@@ -258,7 +262,7 @@ export function Web3CVBuilder() {
         console.error('Demo simulation error:', simulationError);
         toast.dismiss(blockchainToastId);
         toast.dismiss();
-        toast.success(`✅ CV uploaded to IPFS! (Demo mode)`, { duration: 4000 });
+        toast.success(`✅ CV uploaded to IPFS! (Demo mode)`, {});
       }
 
     } catch (error: any) {
@@ -271,21 +275,21 @@ export function Web3CVBuilder() {
       const errorMessage = error.message || 'Failed to upload CV';
 
       if (errorMessage.includes('IPFS')) {
-        toast.error(`❌ IPFS Upload Failed: ${errorMessage}`, { duration: 6000 });
+        toast.error(`❌ IPFS Upload Failed: ${errorMessage}`, {});
         return; // Don't redirect if IPFS failed
       } else if (errorMessage.includes('user rejected') || errorMessage.includes('User denied')) {
-        toast.error('🚫 Transaction was cancelled by user', { duration: 4000 });
+        toast.error('🚫 Transaction was cancelled by user', {});
         return; // Don't redirect if user cancelled
       } else if (errorMessage.includes('insufficient funds')) {
-        toast.error('💸 Insufficient funds for gas fee. Please add more ETH to your wallet.', { duration: 6000 });
+        toast.error('💸 Insufficient funds for gas fee. Please add more ETH to your wallet.', {});
         return; // Don't redirect if no funds
       } else if (errorMessage.includes('network')) {
-        toast.error('🌐 Network error. Please check your connection and try again.', { duration: 6000 });
+        toast.error('🌐 Network error. Please check your connection and try again.', {});
         return; // Don't redirect on network errors
       } else {
         // For other blockchain errors, treat as demo mode success
         console.warn('Blockchain error, continuing with demo mode:', errorMessage);
-        toast.success(`✅ CV uploaded to IPFS! (Demo mode - blockchain issue resolved)`, { duration: 4000 });
+        toast.success(`✅ CV uploaded to IPFS! (Demo mode - blockchain issue resolved)`, {});
 
         // CV status will be handled by demo mode
       }
@@ -296,15 +300,48 @@ export function Web3CVBuilder() {
   };
 
   const isLoading = isUploading || txProcessing;
-  const canEdit = !isConnected || cvStatus === 'None' || cvStatus === 'Pending' || cvStatus === 'Rejected';
+  const canEdit = (!isConnected || cvStatus === 'None' || cvStatus === 'Pending' || cvStatus === 'Rejected') && !isUploadSuccessful;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Status Indicator */}
-      <CVStatusIndicator />
+      {/* Status Indicator - Hidden after upload */}
+      {!isUploadSuccessful && <CVStatusIndicator />}
 
-      {/* Personal Information */}
-      <Card>
+      {/* Success Message */}
+      {isUploadSuccessful && (
+        <Card className="border-green-200 bg-green-50">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="flex justify-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                  <Save className="h-8 w-8 text-green-600" />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-green-800">CV Successfully Uploaded!</h3>
+                <p className="text-green-700">Your CV has been uploaded to IPFS and submitted to the blockchain for verification.</p>
+              </div>
+              <Button
+                onClick={() => {
+                  try {
+                    router.push('/en/app/home/jobs');
+                  } catch (error) {
+                    window.location.href = '/en/app/home/jobs';
+                  }
+                }}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Go to Jobs Dashboard
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Personal Information - Hidden after upload */}
+      {!isUploadSuccessful && (
+        <Card>
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
         </CardHeader>
@@ -365,8 +402,10 @@ export function Web3CVBuilder() {
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Skills */}
+      {/* Skills - Hidden after upload */}
+      {!isUploadSuccessful && (
       <Card>
         <CardHeader>
           <CardTitle>Skills *</CardTitle>
@@ -405,8 +444,10 @@ export function Web3CVBuilder() {
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Experience */}
+      {/* Experience - Hidden after upload */}
+      {!isUploadSuccessful && (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Work Experience</CardTitle>
@@ -484,8 +525,10 @@ export function Web3CVBuilder() {
           )}
         </CardContent>
       </Card>
+      )}
 
-      {/* Education */}
+      {/* Education - Hidden after upload */}
+      {!isUploadSuccessful && (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Education</CardTitle>
@@ -563,8 +606,10 @@ export function Web3CVBuilder() {
           )}
         </CardContent>
       </Card>
+      )}
 
-      {/* File Upload */}
+      {/* File Upload - Hidden after upload */}
+      {!isUploadSuccessful && (
       <Card>
         <CardHeader>
           <CardTitle>CV Document (Optional)</CardTitle>
@@ -600,17 +645,18 @@ export function Web3CVBuilder() {
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Errors */}
-      {ipfsError && (
+      {/* Errors - Hidden after upload */}
+      {!isUploadSuccessful && ipfsError && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>IPFS Error: {ipfsError}</AlertDescription>
         </Alert>
       )}
 
-      {/* Progress */}
-      {isUploading && (
+      {/* Progress - Hidden after upload */}
+      {!isUploadSuccessful && isUploading && (
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-2">
@@ -629,7 +675,8 @@ export function Web3CVBuilder() {
         </Card>
       )}
 
-      {/* Save Button */}
+      {/* Save Button - Hidden after upload */}
+      {!isUploadSuccessful && (
       <Card>
         <CardContent className="pt-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
@@ -697,9 +744,10 @@ export function Web3CVBuilder() {
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Recent Transactions */}
-      {transactions.length > 0 && (
+      {/* Recent Transactions - Hidden after upload */}
+      {!isUploadSuccessful && transactions.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Recent Transactions</CardTitle>

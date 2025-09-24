@@ -150,7 +150,7 @@ export default async function middleware(request: NextRequest) {
         userRole = user?.role?.[0];
       }
     } catch (apiError) {
-      console.warn('Backend API unavailable, using demo mode:', apiError.message);
+      console.warn('Backend API unavailable, using demo mode:', apiError);
 
       // Demo mode: create mock user based on token presence
       if (token) {
