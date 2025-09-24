@@ -19,10 +19,11 @@ export const handleAuthSuccessRedirect = (targetUrl: string = '/en/app/home') =>
     // Also clean up any stray backdrop elements
     const backdrops = document.querySelectorAll('.fixed.inset-0');
     backdrops.forEach(backdrop => {
+      const element = backdrop as HTMLElement;
       if (backdrop.classList.contains('bg-black') ||
           backdrop.classList.contains('bg-background') ||
-          backdrop.style.backgroundColor === 'rgba(0, 0, 0, 0.8)' ||
-          backdrop.style.zIndex === '50') {
+          element.style.backgroundColor === 'rgba(0, 0, 0, 0.8)' ||
+          element.style.zIndex === '50') {
         backdrop.remove();
       }
     });

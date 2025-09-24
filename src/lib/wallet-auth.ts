@@ -171,7 +171,7 @@ class WalletAuthService {
 
     // Store tokens
     setToken(mockResponse.token);
-    setTokenEmail(mockResponse.user.email);
+    setTokenEmail(mockResponse.user.email || 'wallet-user');
 
     return mockResponse;
   }

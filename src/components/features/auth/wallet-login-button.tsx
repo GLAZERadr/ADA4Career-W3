@@ -59,6 +59,9 @@ export function WalletLoginButton({ onSuccess }: WalletLoginButtonProps) {
         token: `demo_token_${Date.now()}`,
         authMethod: 'wallet' as const,
         job_seeker_data: {
+          skill: 'Web3 Development, Blockchain',
+          experiences: 'Demo experience with blockchain development',
+          expectations: 'Looking for Web3 opportunities',
           resume_url: 'demo-resume-url'
         }
       };

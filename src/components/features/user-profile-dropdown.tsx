@@ -53,9 +53,9 @@ const UserProfileDropdown = () => {
               <AvatarImage src={user?.address} alt={user?.name} />
               <AvatarFallback>
                 {user?.name
-                  .split(' ')
+                  ?.split(' ')
                   .map((n) => n[0])
-                  .join('')}
+                  .join('') || 'U'}
               </AvatarFallback>
             </Avatar>
             <div className='hidden flex-col items-start text-left md:flex'>
