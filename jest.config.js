@@ -16,6 +16,13 @@ const customJestConfig = {
 
   testEnvironment: 'jest-environment-jsdom',
 
+  // Exclude Hardhat contract tests from Jest
+  testPathIgnorePatterns: [
+    '<rootDir>/.next/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/test/' // Exclude Hardhat test directory
+  ],
+
   /**
    * Absolute imports and Module Path Aliases
    */
