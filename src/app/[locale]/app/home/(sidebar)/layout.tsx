@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 
 import ChangeLangButton from '@/components/change-lang-button';
 import { AppSidebar } from '@/components/features/job-seeker/sidebar';
+import BuyTokensButton from '@/components/features/token-purchase/buy-tokens-button';
 import UserProfileDropdown from '@/components/features/user-profile-dropdown';
 import {
   SidebarInset,
@@ -56,6 +57,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
             <div className='ml-auto flex items-center gap-3'>
               <ChangeLangButton />
+              <BuyTokensButton />
               <UserProfileDropdown />
             </div>
           </header>
