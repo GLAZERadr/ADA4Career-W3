@@ -1,35 +1,32 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { ReactNode } from 'react';
-
-import api from '@/lib/axios';
+import { useEffect, ReactNode } from 'react';
 
 import useAuthStore from '@/store/useAuthStore';
-
-import { API_BASE_URL } from '@/constant/config';
-
-import { ApiReturn } from '@/types/api.types';
-import { UserInterface } from '@/types/entities/user.types';
 
 export default function UserLayout({ children }: { children: ReactNode }) {
   const { setUser } = useAuthStore();
 
-  const { isPending } = useQuery<ApiReturn<UserInterface>>({
-    queryKey: ['me'],
-    queryFn: async () => {
-      const meResponse = await api.get<ApiReturn<UserInterface>>(
-        `${API_BASE_URL}/me`
-      );
+  useEffect(() => {
+    // Set dummy user data instead of making API call
+    const dummyUser = {
+      id: 'demo_user_12345',
+      email: 'demo@ada4career.com',
+      name: 'Demo User',
+      role: ['jobseeker'],
+      gender: 'male',
+      job_seeker_data: {
+        skill: 'Web Development, React, JavaScript, Accessibility',
+        experiences: 'Frontend Developer with 3+ years experience in accessible web development',
+        expectations: 'Looking for inclusive remote opportunities in Web3 and blockchain technology',
+        resume_url: 'demo-resume-url'
+      },
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
 
-      setUser(meResponse.data.data);
-      return meResponse.data;
-    },
-  });
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
+    setUser(dummyUser);
+  }, [setUser]);
 
   return children;
 }

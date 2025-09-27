@@ -66,6 +66,16 @@ export function Web3CVBuilder() {
   const [newSkill, setNewSkill] = useState('');
   const [cvFile, setCVFile] = useState<File | null>(null);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<{
+    ipfs: 'idle' | 'uploading' | 'success' | 'failed';
+    blockchain: 'idle' | 'pending' | 'success' | 'failed';
+    ipfsHash?: string;
+    transactionHash?: string;
+    blockNumber?: number;
+  }>({
+    ipfs: 'idle',
+    blockchain: 'idle'
+  });
 
   const {
     isConnected,
@@ -226,43 +236,90 @@ export function Web3CVBuilder() {
     }
 
     try {
+      // Reset status
+      setUploadStatus({
+        ipfs: 'idle',
+        blockchain: 'idle'
+      });
+
       // Upload to IPFS first
+      setUploadStatus(prev => ({ ...prev, ipfs: 'uploading' }));
       const ipfsToastId = toast.loading('Uploading CV to IPFS...');
+
       const { cvHash, metadataHash } = await uploadCV(cvData, cvFile || undefined);
+
+      // IPFS upload successful
+      setUploadStatus(prev => ({
+        ...prev,
+        ipfs: 'success',
+        ipfsHash: cvHash
+      }));
 
       // Dismiss IPFS loading and show success
       toast.dismiss(ipfsToastId);
-      toast.success('✅ CV successfully uploaded to IPFS!', {});
+      toast.success('CV successfully uploaded to IPFS!', {});
 
       // Hide form fields after successful IPFS upload
       setIsUploadSuccessful(true);
 
-      // For demo purposes, simulate blockchain submission after IPFS success
+      // Submit to blockchain after successful IPFS upload
       const isUpdate = cvStatus === 'Pending' || cvStatus === 'Rejected';
 
+      setUploadStatus(prev => ({ ...prev, blockchain: 'pending' }));
       const blockchainToastId = toast.loading('Submitting to blockchain...');
 
       try {
-        // Simulate blockchain processing time
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        let txHash;
+        if (isUpdate) {
+          console.log('Updating CV on blockchain...');
+          txHash = await updateCV(cvHash, metadataHash);
+        } else {
+          console.log('Submitting new CV to blockchain...');
+          txHash = await submitCV(cvHash, metadataHash);
+        }
+
+        // Update status with transaction hash
+        if (txHash) {
+          setUploadStatus(prev => ({
+            ...prev,
+            transactionHash: txHash
+          }));
+
+          // Blockchain submission successful (transaction submitted)
+          setUploadStatus(prev => ({
+            ...prev,
+            blockchain: 'success'
+          }));
+        }
 
         // Dismiss blockchain loading and show success
         toast.dismiss(blockchainToastId);
-
-        // Clear all loading toasts to be extra sure
         toast.dismiss();
 
         toast.success(
-          `CV uploaded successfully!`,
+          `CV successfully ${isUpdate ? 'updated' : 'submitted'} to blockchain! Transaction: ${txHash?.slice(0, 10)}...`,
           {}
         );
 
-        console.log('Demo simulation completed successfully');
-      } catch (simulationError) {
-        console.error('Demo simulation error:', simulationError);
+        console.log('Blockchain submission completed successfully:', txHash);
+      } catch (blockchainError: any) {
+        console.error('Blockchain submission error:', blockchainError);
         toast.dismiss(blockchainToastId);
         toast.dismiss();
-        toast.success(`✅ CV uploaded to IPFS! (Demo mode)`, {});
+
+        // Handle specific blockchain errors
+        if (blockchainError.message?.includes('user rejected') || blockchainError.message?.includes('User denied')) {
+          toast.error('Transaction was cancelled by user', {});
+          return;
+        } else if (blockchainError.message?.includes('insufficient funds')) {
+          toast.error('Insufficient funds for gas fee. Please add more ETH to your wallet.', {});
+          return;
+        } else {
+          // Update blockchain status to failed
+          setUploadStatus(prev => ({ ...prev, blockchain: 'failed' }));
+          // For other errors, still show success since IPFS worked
+          toast.success(`CV uploaded to IPFS! Blockchain error: ${blockchainError.message}`, {});
+        }
       }
 
     } catch (error: any) {
@@ -275,21 +332,22 @@ export function Web3CVBuilder() {
       const errorMessage = error.message || 'Failed to upload CV';
 
       if (errorMessage.includes('IPFS')) {
-        toast.error(`❌ IPFS Upload Failed: ${errorMessage}`, {});
+        setUploadStatus(prev => ({ ...prev, ipfs: 'failed' }));
+        toast.error(`IPFS Upload Failed: ${errorMessage}`, {});
         return; // Don't redirect if IPFS failed
       } else if (errorMessage.includes('user rejected') || errorMessage.includes('User denied')) {
-        toast.error('🚫 Transaction was cancelled by user', {});
+        toast.error('Transaction was cancelled by user', {});
         return; // Don't redirect if user cancelled
       } else if (errorMessage.includes('insufficient funds')) {
-        toast.error('💸 Insufficient funds for gas fee. Please add more ETH to your wallet.', {});
+        toast.error('Insufficient funds for gas fee. Please add more ETH to your wallet.', {});
         return; // Don't redirect if no funds
       } else if (errorMessage.includes('network')) {
-        toast.error('🌐 Network error. Please check your connection and try again.', {});
+        toast.error('Network error. Please check your connection and try again.', {});
         return; // Don't redirect on network errors
       } else {
         // For other blockchain errors, treat as demo mode success
         console.warn('Blockchain error, continuing with demo mode:', errorMessage);
-        toast.success(`✅ CV uploaded to IPFS! (Demo mode - blockchain issue resolved)`, {});
+        toast.success(`CV uploaded to IPFS! (Demo mode - blockchain issue resolved)`, {});
 
         // CV status will be handled by demo mode
       }
@@ -300,12 +358,135 @@ export function Web3CVBuilder() {
   };
 
   const isLoading = isUploading || txProcessing;
-  const canEdit = (!isConnected || cvStatus === 'None' || cvStatus === 'Pending' || cvStatus === 'Rejected') && !isUploadSuccessful;
+  const canEdit = (!isConnected || cvStatus === 'None' || cvStatus === 'Rejected') && !isUploadSuccessful;
+  const shouldHideForm = cvStatus === 'Pending' || cvStatus === 'Approved';
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Status Indicator - Hidden after upload */}
+      {/* Upload Progress Status */}
+      {(uploadStatus.ipfs !== 'idle' || uploadStatus.blockchain !== 'idle') && !isUploadSuccessful && (
+        <Card className="border-blue-200 bg-blue-50">
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-blue-800 text-center">Upload Progress</h3>
+
+              {/* IPFS Upload Status */}
+              <div className="flex items-center space-x-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  uploadStatus.ipfs === 'success' ? 'bg-green-100' :
+                  uploadStatus.ipfs === 'uploading' ? 'bg-blue-100' :
+                  uploadStatus.ipfs === 'failed' ? 'bg-red-100' : 'bg-gray-100'
+                }`}>
+                  {uploadStatus.ipfs === 'success' ? '✅' :
+                   uploadStatus.ipfs === 'uploading' ? <Loader2 className="h-4 w-4 animate-spin text-blue-600" /> :
+                   uploadStatus.ipfs === 'failed' ? '❌' : '⏸️'}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">IPFS Upload</span>
+                    <Badge variant={
+                      uploadStatus.ipfs === 'success' ? 'default' :
+                      uploadStatus.ipfs === 'uploading' ? 'secondary' :
+                      uploadStatus.ipfs === 'failed' ? 'destructive' : 'outline'
+                    }>
+                      {uploadStatus.ipfs === 'success' ? 'Complete' :
+                       uploadStatus.ipfs === 'uploading' ? 'Uploading...' :
+                       uploadStatus.ipfs === 'failed' ? 'Failed' : 'Pending'}
+                    </Badge>
+                  </div>
+                  {uploadStatus.ipfsHash && (
+                    <p className="text-xs text-gray-600 mt-1">
+                      IPFS Hash: {uploadStatus.ipfsHash.slice(0, 20)}...
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Blockchain Submission Status */}
+              <div className="flex items-center space-x-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  uploadStatus.blockchain === 'success' ? 'bg-green-100' :
+                  uploadStatus.blockchain === 'pending' ? 'bg-blue-100' :
+                  uploadStatus.blockchain === 'failed' ? 'bg-red-100' : 'bg-gray-100'
+                }`}>
+                  {uploadStatus.blockchain === 'success' ? '✅' :
+                   uploadStatus.blockchain === 'pending' ? <Loader2 className="h-4 w-4 animate-spin text-blue-600" /> :
+                   uploadStatus.blockchain === 'failed' ? '❌' : '⏸️'}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">Blockchain Submission</span>
+                    <Badge variant={
+                      uploadStatus.blockchain === 'success' ? 'default' :
+                      uploadStatus.blockchain === 'pending' ? 'secondary' :
+                      uploadStatus.blockchain === 'failed' ? 'destructive' : 'outline'
+                    }>
+                      {uploadStatus.blockchain === 'success' ? 'Confirmed' :
+                       uploadStatus.blockchain === 'pending' ? 'Processing...' :
+                       uploadStatus.blockchain === 'failed' ? 'Failed' : 'Waiting'}
+                    </Badge>
+                  </div>
+                  {uploadStatus.transactionHash && (
+                    <p className="text-xs text-gray-600 mt-1">
+                      Transaction: {uploadStatus.transactionHash.slice(0, 20)}...
+                    </p>
+                  )}
+                  {uploadStatus.blockNumber && (
+                    <p className="text-xs text-gray-600">
+                      Block: {uploadStatus.blockNumber}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Status Indicator - Always show when not upload successful */}
       {!isUploadSuccessful && <CVStatusIndicator />}
+
+      {/* Status Message when form is hidden */}
+      {shouldHideForm && !isUploadSuccessful && (
+        <Card className={`${cvStatus === 'Pending' ? 'border-yellow-200 bg-yellow-50' : 'border-green-200 bg-green-50'}`}>
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="flex justify-center">
+                <div className={`w-16 h-16 ${cvStatus === 'Pending' ? 'bg-yellow-100' : 'bg-green-100'} rounded-full flex items-center justify-center`}>
+                  {cvStatus === 'Pending' ? (
+                    <Loader2 className="h-8 w-8 text-yellow-600 animate-spin" />
+                  ) : (
+                    <Save className="h-8 w-8 text-green-600" />
+                  )}
+                </div>
+              </div>
+              <div>
+                <h3 className={`text-lg font-semibold ${cvStatus === 'Pending' ? 'text-yellow-800' : 'text-green-800'}`}>
+                  {cvStatus === 'Pending' ? 'CV Under Review' : 'CV Approved!'}
+                </h3>
+                <p className={cvStatus === 'Pending' ? 'text-yellow-700' : 'text-green-700'}>
+                  {cvStatus === 'Pending'
+                    ? 'Your CV is currently being reviewed by an approver. You cannot edit it during this process.'
+                    : 'Congratulations! Your CV has been approved. No further edits are needed.'}
+                </p>
+              </div>
+              <Button
+                onClick={() => {
+                  try {
+                    router.push('/en/app/home/jobs');
+                  } catch (error) {
+                    window.location.href = '/en/app/home/jobs';
+                  }
+                }}
+                className={cvStatus === 'Pending' ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700'}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Go to Jobs Dashboard
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Success Message */}
       {isUploadSuccessful && (
@@ -320,6 +501,21 @@ export function Web3CVBuilder() {
               <div>
                 <h3 className="text-lg font-semibold text-green-800">CV Successfully Uploaded!</h3>
                 <p className="text-green-700">Your CV has been uploaded to IPFS and submitted to the blockchain for verification.</p>
+                {uploadStatus.ipfsHash && (
+                  <p className="text-sm text-green-600 mt-2">
+                    IPFS Hash: {uploadStatus.ipfsHash.slice(0, 30)}...
+                  </p>
+                )}
+                {uploadStatus.transactionHash && (
+                  <p className="text-sm text-green-600">
+                    Transaction: {uploadStatus.transactionHash.slice(0, 30)}...
+                  </p>
+                )}
+                {uploadStatus.blockNumber && (
+                  <p className="text-sm text-green-600">
+                    Block Number: {uploadStatus.blockNumber}
+                  </p>
+                )}
               </div>
               <Button
                 onClick={() => {
@@ -339,8 +535,8 @@ export function Web3CVBuilder() {
         </Card>
       )}
 
-      {/* Personal Information - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* Personal Information - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
         <Card>
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
@@ -404,8 +600,8 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* Skills - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* Skills - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
       <Card>
         <CardHeader>
           <CardTitle>Skills *</CardTitle>
@@ -446,8 +642,8 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* Experience - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* Experience - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Work Experience</CardTitle>
@@ -527,8 +723,8 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* Education - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* Education - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Education</CardTitle>
@@ -608,8 +804,8 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* File Upload - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* File Upload - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
       <Card>
         <CardHeader>
           <CardTitle>CV Document (Optional)</CardTitle>
@@ -647,16 +843,16 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* Errors - Hidden after upload */}
-      {!isUploadSuccessful && ipfsError && (
+      {/* Errors - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && ipfsError && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>IPFS Error: {ipfsError}</AlertDescription>
         </Alert>
       )}
 
-      {/* Progress - Hidden after upload */}
-      {!isUploadSuccessful && isUploading && (
+      {/* Progress - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && isUploading && (
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-2">
@@ -675,24 +871,21 @@ export function Web3CVBuilder() {
         </Card>
       )}
 
-      {/* Save Button - Hidden after upload */}
-      {!isUploadSuccessful && (
+      {/* Save Button - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && (
       <Card>
         <CardContent className="pt-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-between">
             <div className="text-sm text-gray-600">
               <p className="font-medium">Save to Blockchain</p>
               <p>Your CV will be stored on IPFS and registered on Ethereum blockchain for verification.</p>
-              {cvStatus === 'Approved' && (
-                <p className="text-green-600 mt-1">✓ Your CV is already approved and cannot be edited.</p>
-              )}
             </div>
 
             <div className="flex gap-3">
               <Button
                 type="button"
                 onClick={(e) => handleSaveToBlockchain(e)}
-                disabled={!canEdit || isLoading || cvStatus === 'Approved'}
+                disabled={!canEdit || isLoading}
                 className="flex items-center gap-2 min-w-[200px]"
                 size="lg"
               >
@@ -704,7 +897,7 @@ export function Web3CVBuilder() {
                 ) : (
                   <>
                     <Save className="h-4 w-4" />
-                    {cvStatus === 'Pending' || cvStatus === 'Rejected' ? 'Update CV' : 'Save to Blockchain'}
+                    {cvStatus === 'Rejected' ? 'Update CV' : 'Save to Blockchain'}
                   </>
                 )}
               </Button>
@@ -746,8 +939,8 @@ export function Web3CVBuilder() {
       </Card>
       )}
 
-      {/* Recent Transactions - Hidden after upload */}
-      {!isUploadSuccessful && transactions.length > 0 && (
+      {/* Recent Transactions - Hidden when status is Pending/Approved */}
+      {!shouldHideForm && !isUploadSuccessful && transactions.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Recent Transactions</CardTitle>

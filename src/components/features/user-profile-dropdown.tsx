@@ -137,17 +137,6 @@ const UserProfileDropdown = () => {
           </>
         )}
 
-        {/* User Email */}
-        {user?.email && (
-          <>
-            <div className='px-2 py-2'>
-              <div className='text-sm text-gray-500'>Email</div>
-              <div className='text-sm font-medium text-gray-800'>{user.email}</div>
-            </div>
-            <DropdownMenuSeparator />
-          </>
-        )}
-
         <DropdownMenuItem
           disabled={isLoadingLogout}
           onClick={handleLogout}

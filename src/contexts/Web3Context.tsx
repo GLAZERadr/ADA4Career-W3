@@ -104,6 +104,7 @@ interface Web3ContextType extends Web3State {
   getCVStatus: () => Promise<void>;
   approveCV: (userAddress: string) => Promise<string>;
   rejectCV: (userAddress: string, reason: string) => Promise<string>;
+  getPendingCVs: (offset: number, limit: number) => Promise<{users: string[], records: any[]}>;
   clearError: () => void;
 }
 
@@ -119,6 +120,7 @@ const CONTRACT_CONFIG = {
     "function updateCV(string memory _ipfsHash, string memory _metadataHash) external",
     "function approveCV(address _user) external",
     "function rejectCV(address _user, string memory _reason) external",
+    "function getPendingCVs(uint256 _offset, uint256 _limit) external view returns (address[] memory users, tuple(string ipfsHash, string metadataHash, uint8 status, uint256 submissionTime, uint256 lastUpdateTime, address submitter, string rejectionReason)[] memory records)",
     "function getCVRecord(address _user) external view returns (tuple(string ipfsHash, string metadataHash, uint8 status, uint256 submissionTime, uint256 lastUpdateTime, address submitter, string rejectionReason))",
     "function getCVStatus(address _user) external view returns (uint8)",
     "function isApprover(address _address) external view returns (bool)",
@@ -455,13 +457,38 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       throw new Error('Contract not initialized');
     }
 
+    if (!state.account) {
+      throw new Error('Wallet not connected');
+    }
+
     try {
+      // Check if the current account is an approver
+      const isApprover = await state.cvRegistryContract.isApprover(state.account);
+      if (!isApprover) {
+        throw new Error('Current wallet is not authorized as an approver');
+      }
+
+      console.log('Calling approveCV on contract for user:', userAddress);
       const tx = await state.cvRegistryContract.approveCV(userAddress);
-      await tx.wait();
+      console.log('Transaction sent:', tx.hash);
+
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt);
+
       return tx.hash;
     } catch (error: any) {
       console.error('Error approving CV:', error);
-      throw new Error(error.reason || 'Failed to approve CV');
+
+      // Handle specific contract errors
+      if (error.reason) {
+        throw new Error(error.reason);
+      } else if (error.message?.includes('unauthorized')) {
+        throw new Error('Not authorized to approve CVs');
+      } else if (error.message?.includes('user rejected')) {
+        throw new Error('Transaction was rejected by user');
+      } else {
+        throw new Error(error.message || 'Failed to approve CV');
+      }
     }
   };
 
@@ -470,13 +497,53 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       throw new Error('Contract not initialized');
     }
 
+    if (!state.account) {
+      throw new Error('Wallet not connected');
+    }
+
     try {
+      // Check if the current account is an approver
+      const isApprover = await state.cvRegistryContract.isApprover(state.account);
+      if (!isApprover) {
+        throw new Error('Current wallet is not authorized as an approver');
+      }
+
+      console.log('Calling rejectCV on contract for user:', userAddress, 'with reason:', reason);
       const tx = await state.cvRegistryContract.rejectCV(userAddress, reason);
-      await tx.wait();
+      console.log('Transaction sent:', tx.hash);
+
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt);
+
       return tx.hash;
     } catch (error: any) {
       console.error('Error rejecting CV:', error);
-      throw new Error(error.reason || 'Failed to reject CV');
+
+      // Handle specific contract errors
+      if (error.reason) {
+        throw new Error(error.reason);
+      } else if (error.message?.includes('unauthorized')) {
+        throw new Error('Not authorized to reject CVs');
+      } else if (error.message?.includes('user rejected')) {
+        throw new Error('Transaction was rejected by user');
+      } else {
+        throw new Error(error.message || 'Failed to reject CV');
+      }
+    }
+  };
+
+  const getPendingCVs = async (offset: number, limit: number): Promise<{users: string[], records: any[]}> => {
+    if (!state.cvRegistryContract) {
+      throw new Error('Contract not initialized');
+    }
+
+    try {
+      const result = await state.cvRegistryContract.getPendingCVs(offset, limit);
+      const [users, records] = result;
+      return { users, records };
+    } catch (error: any) {
+      console.error('Error fetching pending CVs:', error);
+      throw new Error(error.reason || 'Failed to fetch pending CVs');
     }
   };
 
@@ -494,6 +561,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     getCVStatus,
     approveCV,
     rejectCV,
+    getPendingCVs,
     clearError,
   };
 

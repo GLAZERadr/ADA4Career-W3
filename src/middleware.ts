@@ -137,23 +137,11 @@ export default async function middleware(request: NextRequest) {
     let user = null;
     let userRole = null;
 
-    try {
-      const userResponse = await fetch(`${API_BASE_URL}/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-        // Add timeout to prevent hanging
-        signal: AbortSignal.timeout(5000), // 5 second timeout
-      });
+    // Skip API call and use demo mode directly
+    console.log('Using demo mode - backend API calls disabled');
 
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
-        user = userData.data;
-        userRole = user?.role?.[0];
-      }
-    } catch (apiError) {
-      console.warn('Backend API unavailable, using demo mode:', apiError);
-
-      // Demo mode: create mock user based on token presence
-      if (token) {
+    // Demo mode: create mock user based on token presence
+    if (token) {
         user = {
           id: 'demo-user',
           email: 'demo@ada4career.com',
@@ -169,7 +157,6 @@ export default async function middleware(request: NextRequest) {
         };
         userRole = 'jobseeker';
       }
-    }
 
     // If no user data and invalid token, redirect to login
     if (!user || !userRole) {

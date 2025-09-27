@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   icons: {
     icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
+    shortcut: '/favicon/icon.png',
+    apple: '/favicon/apple-icon.png',
   },
   manifest: `/favicon/site.webmanifest`,
   openGraph: {
@@ -71,7 +71,19 @@ export default async function RootLayout({
               <AbsolutePositionWidget />
               <KeyboardNavigationDialog />
               <ImplementWidget />
-              <ToastContainer />
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                limit={3}
+              />
               <NuqsAdapter>{children}</NuqsAdapter>
             </NextIntlClientProvider>
           </body>

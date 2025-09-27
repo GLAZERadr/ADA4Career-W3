@@ -207,33 +207,6 @@ export function CVStatusIndicator() {
             </div>
           </div>
         )}
-
-        {cvStatus === 'Pending' && (
-          <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border">
-            <div className="text-sm flex-1">
-              <p className="font-medium text-gray-800">Demo Admin Panel</p>
-              <p className="text-gray-600 text-xs mb-2">
-                For demonstration purposes, you can simulate admin approval/rejection:
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  onClick={() => simulateApproval()}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  Simulate Approve
-                </Button>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => simulateRejection()}
-                >
-                  Simulate Reject
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

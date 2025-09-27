@@ -13,21 +13,19 @@ module.exports = {
     },
   },
   networks: {
+    'lisk-sepolia': {
+      url: process.env.SEPOLIA_RPC_URL || 'https://rpc.sepolia-api.lisk.com',
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      chainId: 4202,
+      gasPrice: 1000000000, // 1 gwei
+      gas: 2000000,
+    },
     sepolia: {
       url: process.env.SEPOLIA_RPC_URL || 'https://rpc.sepolia-api.lisk.com',
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
       chainId: 4202,
-      gasPrice: 'auto',
-      gas: 'auto',
-      timeout: 60000,
-    },
-    'eth-sepolia': {
-      url: process.env.ETH_SEPOLIA_RPC_URL || 'https://ethereum-sepolia-rpc.publicnode.com',
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 11155111,
-      gasPrice: 'auto',
-      gas: 'auto',
-      timeout: 60000,
+      gasPrice: 1000000000, // 1 gwei
+      gas: 2000000,
     },
     hardhat: {
       chainId: 31337,

@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, Home, MessageCircle, TreeDeciduous } from 'lucide-react';
+import { BookOpen, Home, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl'; // Import useTranslations
@@ -40,11 +40,6 @@ export function AppSidebar() {
       icon: <MessageCircle className='h-12 w-12' />,
       url: '/app/home/chat',
       label: t('aidaChat'),
-    },
-    {
-      icon: <TreeDeciduous className='h-12 w-12' />,
-      url: '/app/home/career-tree',
-      label: t('careerTree'),
     },
   ];
 

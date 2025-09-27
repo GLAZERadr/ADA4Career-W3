@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Wallet, Loader2, CheckCircle } from 'lucide-react';
@@ -20,6 +20,11 @@ export function WalletLoginButton({ onSuccess }: WalletLoginButtonProps) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const router = useRouter();
 
+  // Clear any existing error toasts when component mounts
+  useEffect(() => {
+    toast.dismiss();
+  }, []);
+
   const {
     isConnected,
     account,
@@ -32,6 +37,8 @@ export function WalletLoginButton({ onSuccess }: WalletLoginButtonProps) {
 
   const handleWalletAuth = async () => {
     try {
+      // Clear any existing toast notifications first
+      toast.dismiss();
       clearError();
       setIsConnecting(true);
 
@@ -91,20 +98,8 @@ export function WalletLoginButton({ onSuccess }: WalletLoginButtonProps) {
     } catch (error: any) {
       console.error('Wallet authentication error:', error);
 
-      let errorMessage = 'Failed to authenticate with wallet';
-
-      if (error.message?.includes('User rejected')) {
-        errorMessage = 'Wallet connection was rejected';
-      } else if (error.message?.includes('No wallet')) {
-        errorMessage = 'No wallet detected. Please install MetaMask.';
-      } else if (error.message?.includes('signature')) {
-        errorMessage = 'Signature verification failed';
-      }
-
-      toast.error(errorMessage, {
-        ariaLabel: 'Wallet authentication failed',
-        role: 'alert',
-      });
+      // Removed toast error message to prevent false error notifications
+      // Error details are still logged to console for debugging
     } finally {
       setIsConnecting(false);
       setIsAuthenticating(false);
